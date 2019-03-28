@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies{
+    implementation group: 'com.miglayout', name: 'miglayout', version: '3.7.4'
+
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.1.3.RELEASE'
+    testImplementation 'junit:junit:4.12'
+}
+
+mainClassName = 'cn.ghx.mqtt.gprmc.App'
