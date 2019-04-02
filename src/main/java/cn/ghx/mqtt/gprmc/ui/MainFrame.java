@@ -1,5 +1,6 @@
 package cn.ghx.mqtt.gprmc.ui;
 
+import com.sun.xml.internal.ws.api.model.MEP;
 import net.miginfocom.swing.MigLayout;
 import org.fusesource.mqtt.client.*;
 
@@ -23,7 +24,7 @@ public class MainFrame extends JFrame {
 
     private static final String INFO = "INF";
     private static final String ERROR = "ERR";
-    private static final String WARN = "WAR";
+    private static final String WARN = "WRN";
     private static final String SUCCESS = "SUC";
 
     private JFileChooser _chooser;
@@ -106,7 +107,7 @@ public class MainFrame extends JFrame {
      * render left configurer panel
      */
     private void renderLeftPanel() {
-        JPanel panel = new JPanel(new MigLayout("wrap 2,gap 5", "0[right]5[fill]0", ""));
+        JPanel panel = new JPanel(new MigLayout("wrap 2,gap 5", "0[right]5[fill,grow]0", ""));
 
         initMtqqConfigView(panel);
         panel.add(new JSeparator(), "span,growx");
@@ -269,13 +270,13 @@ public class MainFrame extends JFrame {
                 String msg = String.format("[ %s ] [ %s ] : %s", level, time, text);
                 System.out.println(msg);
                 JLabel label = new JLabel(msg);
-                label.setFont(new Font("Serif", Font.PLAIN, 12));
+                label.setFont(new Font("consolas", Font.PLAIN, 12));
                 if (level.equalsIgnoreCase(ERROR)) {
                     label.setForeground(Color.RED);
                 } else if (level.equalsIgnoreCase(WARN)) {
                     label.setForeground(Color.YELLOW);
                 } else if (level.equalsIgnoreCase(SUCCESS)) {
-                    label.setForeground(Color.GREEN);
+                    label.setForeground(Color.BLUE);
                 }
                 JPanel panel = (JPanel) _scroll.getViewport().getView();
                 panel.add(label, "h 20!");
@@ -321,7 +322,7 @@ public class MainFrame extends JFrame {
                     }
                 }
                 stop();
-                message("Disconnected .");
+                message("Disconnected .",WARN);
                 _btnConnect.setText(con);
             }
 
@@ -408,6 +409,7 @@ public class MainFrame extends JFrame {
 
         void toStop() {
             stopPushInterval();
+            message("Pushing message progress is stopped successfully.",WARN);
             _btnStart.setText(start);
         }
 
@@ -424,6 +426,8 @@ public class MainFrame extends JFrame {
                 }
                 startPushInterval();
                 _btnStart.setText(stop);
+            }else{
+                message("Server is not connected.",WARN);
             }
         }
 
@@ -432,7 +436,7 @@ public class MainFrame extends JFrame {
         }
 
         private void startPushInterval() {
-
+            message("Starting to push message.");
         }
     }
     private class SubscribeListener implements ActionListener{
@@ -453,6 +457,7 @@ public class MainFrame extends JFrame {
             if(isConnected()){
                 try {
                     _connection.unsubscribe(new String[]{_subscribeTopic});
+                    message("UnSubscribe success !", WARN);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -469,6 +474,8 @@ public class MainFrame extends JFrame {
                 }
                 startSubscribe(pull);
                 _btnSubscribe.setText(unsub);
+            }else{
+                message("Server is not connected.",WARN);
             }
         }
 
