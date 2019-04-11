@@ -64,11 +64,11 @@ public class GeoTool {
         // ddmm.mmmm
         String lat = GeoTool.latToDdmm(latitude);
         // South or North
-        String y = "N";
+        String y = latitude > 0 ? "N" : "S";
         // dddmm.mmmm
         String lng = GeoTool.lonToDddmm(longitude);
         // East or West
-        String x = "E";
+        String x = longitude > 0 ? "E" : "W";
 
         // 1.85 km/h = 1 knots
         // 1 km/h = 1 / 1.85 knots
@@ -79,7 +79,7 @@ public class GeoTool {
         format.applyPattern("ddmmyy");
         String utc_dmy = format.format(date);
         // $GPRMC,023543.00,A,2308.28715,N,11322.09875,E,0.195,,240213,,,A*78
-        String toCheck = String.format("GPRMC,%s,A,%s,N,%s,E,%s,%s,%s,,,A", utc_hms, lat, lng, speed, dir, utc_dmy);
+        String toCheck = String.format("GPRMC,%s,A,%s,%s,%s,%s,%s,%s,%s,,,A", utc_hms, lat,y ,lng,x, speed, dir, utc_dmy);
         return "$" + toCheck + "*" + getChecksum(toCheck);
     }
 

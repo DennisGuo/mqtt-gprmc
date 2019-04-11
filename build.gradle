@@ -3,6 +3,8 @@ plugins {
     id 'application'
 }
 
+version = '1.0.0'
+
 repositories {
     jcenter()
 }
@@ -17,3 +19,17 @@ dependencies{
 }
 
 mainClassName = 'cn.ghx.mqtt.gprmc.App'
+
+jar {
+    manifest {
+        attributes(
+                "Implementation-Title": "Mqtt GPRMC Client",
+                "Implementation-Version": version,
+                "Main-Class": mainClassName
+        )
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
