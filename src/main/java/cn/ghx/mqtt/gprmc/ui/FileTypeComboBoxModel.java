@@ -7,10 +7,11 @@ public class FileTypeComboBoxModel<T extends FileTypeComboBoxModel.TYPE> extends
     private String selected;
 
     public enum TYPE {
-        KMZ_OR_KML("kmz/kml"),
+        TXT("txt"),
         WKT("wkt"),
         GEOJSON("geojson"),
-        TXT("txt");
+        KML("kml"),
+        ;
 
         private String text;
 
