@@ -692,7 +692,10 @@ public class MainFrame extends JFrame {
         void stop() {
             if(_timer != null) {
                 _timer.cancel();
+                _timer = null;
+                _startListener.toStop();
                 this.cancel(true);
+
             }
         }
 
